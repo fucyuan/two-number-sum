@@ -1,6 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <unordered_map>
+
 /*unordered_map是C++标准库中的一个关联容器，它提供了一种将键和值关联起来的方式。
 unordered_map是基于哈希表实现的，因此具有快速的查找和插入操作的特性。
 
@@ -18,55 +16,40 @@ find(key)：查找指定键对应的值，并返回一个迭代器指向该位置。
 count(key)：返回指定键在unordered_map中出现的次数（0或1）。
 size()：返回unordered_map中元素的个数。
 在示例代码中，我们使用unordered_map<int, int>来存储数字和它们的索引。这样可以通过数字作为键快速查找对应的索引，以便在找到目标值时返回结果。*/
-class Solution
-{
-public:
-    std::vector<int> twoSum(std::vector<int>& nums, int target)
-    {
-        std::unordered_map<int, int> numMap;
+#include <iostream>
+#include <vector>
+#include <unordered_map>
 
-        for (int i = 0; i < nums.size(); i++) 
-        {
+class TwoSum {
+private:
+    std::unordered_map<int, int> numMap;
+
+public:
+    std::vector<int> findTwoSum(std::vector<int>& nums, int target) {
+        std::vector<int> result;
+
+        for (int i = 0; i < nums.size(); i++) {
             int complement = target - nums[i];
 
-            if (numMap.find(complement) != numMap.end()) 
-            {
-                return { numMap[complement], i };
+            if (numMap.find(complement) != numMap.end()) {
+                result.push_back(numMap[complement]);
+                result.push_back(i);
+                return result;
             }
 
             numMap[nums[i]] = i;
         }
 
-        return {};
+        return result;
     }
 };
-std::vector<int> twoSum(std::vector<int>& nums, int target) 
-{
-    std::unordered_map<int, int> numMap;
-    std::vector<int> result;
 
-    for (int i = 0; i < nums.size(); i++) {
-        int complement = target - nums[i];
-
-        if (numMap.find(complement) != numMap.end()) 
-        {
-            result.push_back(numMap[complement]);
-            result.push_back(i);
-            return result;
-        }
-
-        numMap[nums[i]] = i;
-    }
-
-    return result;
-}
-
-int main()
-{
+int main() {
     std::vector<int> nums = { 2, 7, 11, 15 };
     int target = 9;
 
-    std::vector<int> result = twoSum(nums, target);
+    TwoSum twoSum;
+    std::vector<int> result = twoSum.findTwoSum(nums, target);
 
     if (result.size() == 2) {
         std::cout << "Indices: " << result[0] << ", " << result[1] << std::endl;
